@@ -40,16 +40,18 @@ export default function Index() {
   }, [scrollElements]);
 
   return (
-    <div className="dark bg-background text-foreground min-h-screen">
+    <div className="bg-background text-foreground min-h-screen">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-lg border-b border-white/5">
+      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-lg border-b border-black/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets%2F096448223b0e406a8a0785e611ecead3%2F5f40d12f388f4d9db63be26e6876548a?format=webp&width=200"
-              alt="SDC Logo"
-              className="h-10 w-auto"
-            />
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets%2F096448223b0e406a8a0785e611ecead3%2F5f40d12f388f4d9db63be26e6876548a?format=webp&width=200"
+                alt="SDC Logo"
+                className="h-8 w-8 rounded-full"
+              />
+            </div>
             <span className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               SDC
             </span>
@@ -71,9 +73,9 @@ export default function Index() {
       <section id="hero" className="relative w-full pt-32 pb-20 overflow-hidden">
         {/* Animated background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }}></div>
-          <svg className="absolute inset-0 w-full h-full opacity-5" xmlns="http://www.w3.org/2000/svg">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-200/20 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }}></div>
+          <svg className="absolute inset-0 w-full h-full opacity-3" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
                 <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" />
@@ -86,11 +88,11 @@ export default function Index() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Logo */}
           <div className="mb-8 flex justify-center animate-fade-in">
-            <div className="w-32 h-32 glass rounded-2xl flex items-center justify-center glow-cyan">
+            <div className="w-40 h-40 glass rounded-full flex items-center justify-center glow-cyan-lg">
               <img
                 src="https://cdn.builder.io/api/v1/image/assets%2F096448223b0e406a8a0785e611ecead3%2F5f40d12f388f4d9db63be26e6876548a?format=webp&width=400"
                 alt="SDC Logo"
-                className="w-24 h-24"
+                className="w-32 h-32 rounded-full"
               />
             </div>
           </div>
@@ -140,7 +142,7 @@ export default function Index() {
       </section>
 
       {/* Problem & Solution Section */}
-      <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-white/2">
+      <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-blue-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 scroll-fade-in">The Challenge & Our Solution</h2>
@@ -251,7 +253,7 @@ export default function Index() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/3">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50 to-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 scroll-fade-in">Mission & Vision</h2>
@@ -354,7 +356,7 @@ export default function Index() {
       </section>
 
       {/* Programs */}
-      <section id="programs" className="py-20 px-4 sm:px-6 lg:px-8 bg-white/2">
+      <section id="programs" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-cyan-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 scroll-fade-in">Flagship Programs</h2>
@@ -501,7 +503,7 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border-y border-white/10">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-cyan-100 via-blue-100 to-purple-100 border-y border-black/5">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl md:text-6xl font-bold mb-6 scroll-fade-in">
             Join us. Build skills.{" "}
@@ -519,7 +521,7 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-white/5">
+      <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-black/10 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-12">
             <div>
@@ -563,7 +565,7 @@ export default function Index() {
             </div>
           </div>
 
-          <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-muted-foreground text-sm">
+          <div className="border-t border-black/10 pt-8 flex flex-col md:flex-row justify-between items-center text-muted-foreground text-sm">
             <p>&copy; 2025 Skill Development Cell. All rights reserved.</p>
             <div className="flex gap-6 mt-4 md:mt-0">
               <a href="#" className="hover:text-cyan-400 transition">Privacy Policy</a>
