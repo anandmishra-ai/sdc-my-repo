@@ -98,7 +98,7 @@ export default function Index() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-slide-up" style={{ animationDelay: "0.1s" }}>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 animate-slide-up leading-tight" style={{ animationDelay: "0.1s" }}>
             Your Gateway to{" "}
             <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
               Future-Ready Skills
@@ -107,14 +107,14 @@ export default function Index() {
 
           {/* Subtext */}
           <p
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-slide-up"
+            className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-slide-up px-4"
             style={{ animationDelay: "0.2s" }}
           >
             Helping students become industry-ready through skills, mentorship & real-world exposure
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-slide-up" style={{ animationDelay: "0.3s" }}>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-slide-up px-4" style={{ animationDelay: "0.3s" }}>
             <button className="px-8 py-4 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-semibold transition-all transform hover:scale-105 shadow-lg glow-cyan flex items-center justify-center gap-2">
               Join SDC <ArrowRight className="w-5 h-5" />
             </button>
@@ -124,18 +124,18 @@ export default function Index() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
-            <div className="glass rounded-lg p-4 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-              <div className="text-3xl font-bold text-cyan-400">117+</div>
-              <div className="text-sm text-muted-foreground">Active Members</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+            <div className="glass rounded-xl p-6 animate-fade-in hover:shadow-lg transition-all" style={{ animationDelay: "0.4s" }}>
+              <div className="text-4xl md:text-5xl font-bold text-transparent bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text">117+</div>
+              <div className="text-sm md:text-base text-muted-foreground mt-2">Active Members</div>
             </div>
-            <div className="glass rounded-lg p-4 animate-fade-in" style={{ animationDelay: "0.5s" }}>
-              <div className="text-3xl font-bold text-cyan-400">50+</div>
-              <div className="text-sm text-muted-foreground">Events Hosted</div>
+            <div className="glass rounded-xl p-6 animate-fade-in hover:shadow-lg transition-all" style={{ animationDelay: "0.5s" }}>
+              <div className="text-4xl md:text-5xl font-bold text-transparent bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text">50+</div>
+              <div className="text-sm md:text-base text-muted-foreground mt-2">Events Hosted</div>
             </div>
-            <div className="glass rounded-lg p-4 animate-fade-in" style={{ animationDelay: "0.6s" }}>
-              <div className="text-3xl font-bold text-cyan-400">National</div>
-              <div className="text-sm text-muted-foreground">Reach</div>
+            <div className="glass rounded-xl p-6 animate-fade-in hover:shadow-lg transition-all sm:col-span-2 md:col-span-1" style={{ animationDelay: "0.6s" }}>
+              <div className="text-4xl md:text-5xl font-bold text-transparent bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text">Global</div>
+              <div className="text-sm md:text-base text-muted-foreground mt-2">National Reach</div>
             </div>
           </div>
         </div>
@@ -151,19 +151,19 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* Problems */}
             <div className="scroll-fade-in">
-              <h3 className="text-2xl font-bold mb-8 text-red-400">The Problem</h3>
+              <h3 className="text-2xl md:text-3xl font-bold mb-8 text-red-500">The Problem</h3>
               <div className="space-y-4">
                 {[
                   { icon: "90%", label: "Students lack job-ready skills, mentors, and real project exposure" },
                   { icon: "85%", label: "Have no professional network, while 75% jobs come via referrals" },
                   { icon: "70%", label: "Realize too late weak resumes, low confidence, missed roles" },
                 ].map((item, i) => (
-                  <div key={i} className="glass rounded-lg p-4 border-l-2 border-red-500 hover:border-red-400 transition">
-                    <div className="text-2xl font-bold text-red-400 mb-2">{item.icon}</div>
-                    <p className="text-muted-foreground">{item.label}</p>
+                  <div key={i} className="glass rounded-lg p-4 md:p-5 border-l-4 border-red-500 hover:border-red-400 hover:shadow-md transition-all duration-300">
+                    <div className="text-2xl md:text-3xl font-bold text-red-500 mb-2">{item.icon}</div>
+                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed">{item.label}</p>
                   </div>
                 ))}
               </div>
@@ -171,19 +171,19 @@ export default function Index() {
 
             {/* Solutions */}
             <div className="scroll-fade-in" style={{ animationDelay: "0.2s" }}>
-              <h3 className="text-2xl font-bold mb-8 text-cyan-400">Our Solution</h3>
+              <h3 className="text-2xl md:text-3xl font-bold mb-8 text-cyan-500">Our Solution</h3>
               <div className="space-y-4">
                 {[
                   { icon: Zap, label: "Skills & Mentorship", desc: "Students gain practical skills with clear career guidance" },
                   { icon: Users, label: "Network & Exposure", desc: "Access to alumni, industry insights, and real opportunities" },
                   { icon: CheckCircle, label: "Confidence & Outcomes", desc: "Stronger communication, interviews, and placement readiness" },
                 ].map((item, i) => (
-                  <div key={i} className="glass rounded-lg p-4 border-l-2 border-cyan-500 hover:border-cyan-400 transition">
+                  <div key={i} className="glass rounded-lg p-4 md:p-5 border-l-4 border-cyan-500 hover:border-cyan-400 hover:shadow-md transition-all duration-300">
                     <div className="flex items-start gap-4">
-                      <item.icon className="w-6 h-6 text-cyan-400 flex-shrink-0 mt-1" />
+                      <item.icon className="w-6 h-6 md:w-7 md:h-7 text-cyan-500 flex-shrink-0 mt-1" />
                       <div>
-                        <h4 className="font-semibold text-lg mb-1">{item.label}</h4>
-                        <p className="text-muted-foreground text-sm">{item.desc}</p>
+                        <h4 className="font-semibold text-base md:text-lg mb-1">{item.label}</h4>
+                        <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
                       </div>
                     </div>
                   </div>
