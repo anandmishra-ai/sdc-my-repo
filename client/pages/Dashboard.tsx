@@ -1,14 +1,7 @@
-import { LogOut, Download, FileText, Award, TrendingUp, Clock } from "lucide-react";
+import { LogOut, Download, FileText, Award, TrendingUp, Clock, Calendar, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-interface StudentUser {
-  id: string;
-  email: string;
-  name: string;
-  picture: string;
-  joinDate: string;
-}
+import { getSession, clearSession } from "@/lib/auth";
 
 interface Resource {
   id: string;
@@ -21,10 +14,71 @@ interface Resource {
   category: string;
 }
 
+interface ProgressData {
+  skill: string;
+  progress: number;
+  sessions: number;
+  hoursSpent: number;
+  lastUpdated: string;
+}
+
+interface StudentProfile {
+  totalHours: number;
+  sessionsAttended: number;
+  achievements: number;
+  downloadedResources: string[];
+  progressData: ProgressData[];
+  lastActivityDate: string;
+}
+
+const getStorageKey = (userId: string) => `studentProfile_${userId}`;
+
+const initializeProfile = (userId: string): StudentProfile => {
+  return {
+    totalHours: 48,
+    sessionsAttended: 23,
+    achievements: 7,
+    downloadedResources: [],
+    progressData: [
+      { skill: "Financial Modeling", progress: 75, sessions: 6, hoursSpent: 12, lastUpdated: new Date().toISOString() },
+      { skill: "Case Analysis", progress: 60, sessions: 4, hoursSpent: 8, lastUpdated: new Date().toISOString() },
+      { skill: "Presentation Skills", progress: 85, sessions: 8, hoursSpent: 16, lastUpdated: new Date().toISOString() },
+      { skill: "Communication", progress: 70, sessions: 5, hoursSpent: 10, lastUpdated: new Date().toISOString() },
+    ],
+    lastActivityDate: new Date().toISOString(),
+  };
+};
+
+const getStudentProfile = (userId: string): StudentProfile => {
+  const storageKey = getStorageKey(userId);
+  const stored = localStorage.getItem(storageKey);
+
+  if (stored) {
+    try {
+      return JSON.parse(stored);
+    } catch {
+      return initializeProfile(userId);
+    }
+  }
+
+  const profile = initializeProfile(userId);
+  localStorage.setItem(storageKey, JSON.stringify(profile));
+  return profile;
+};
+
+const saveStudentProfile = (userId: string, profile: StudentProfile): void => {
+  const storageKey = getStorageKey(userId);
+  localStorage.setItem(storageKey, JSON.stringify({
+    ...profile,
+    lastActivityDate: new Date().toISOString(),
+  }));
+};
+
 export default function Dashboard() {
   const navigate = useNavigate();
-  const [user, setUser] = useState<StudentUser | null>(null);
+  const [session, setSession] = useState(getSession());
   const [activeTab, setActiveTab] = useState<"overview" | "resources" | "progress">("overview");
+  const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [resources, setResources] = useState<Resource[]>([
     {
       id: "1",
@@ -59,33 +113,42 @@ export default function Dashboard() {
   ]);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("sdcUser");
-    if (!storedUser) {
+    const currentSession = getSession();
+    if (!currentSession) {
       navigate("/login");
       return;
     }
-    setUser(JSON.parse(storedUser));
+
+    setSession(currentSession);
+
+    // Load or initialize student profile
+    const studentProfile = getStudentProfile(currentSession.user.id);
+    setProfile(studentProfile);
   }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem("sdcUser");
-    localStorage.removeItem("userRole");
+    clearSession();
     navigate("/");
   };
 
-  if (!user) return null;
+  const handleDownloadResource = (resourceId: string) => {
+    if (!session || !profile) return;
 
-  const progressData = [
-    { skill: "Financial Modeling", progress: 75, sessions: 6 },
-    { skill: "Case Analysis", progress: 60, sessions: 4 },
-    { skill: "Presentation Skills", progress: 85, sessions: 8 },
-    { skill: "Communication", progress: 70, sessions: 5 },
-  ];
+    const updatedProfile = {
+      ...profile,
+      downloadedResources: [...new Set([...profile.downloadedResources, resourceId])],
+    };
+
+    setProfile(updatedProfile);
+    saveStudentProfile(session.user.id, updatedProfile);
+  };
+
+  if (!session || !profile) return null;
 
   const achievements = [
-    { title: "Early Bird", desc: "Joined SDC in first month", icon: "🚀" },
-    { title: "100 Hours", desc: "Completed 100 hours of training", icon: "⏰" },
-    { title: "Case Master", desc: "Won a case competition", icon: "🏆" },
+    { title: "Early Bird", desc: "Joined SDC in first month", icon: "🚀", unlocked: true },
+    { title: "100 Hours", desc: "Completed 100 hours of training", icon: "⏰", unlocked: profile.totalHours >= 100 },
+    { title: "Case Master", desc: "Won a case competition", icon: "🏆", unlocked: profile.achievements >= 3 },
   ];
 
   return (
@@ -105,14 +168,12 @@ export default function Dashboard() {
           </div>
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2">
-              <img
-                src={user.picture}
-                alt={user.name}
-                className="w-8 h-8 rounded-full border-2 border-cyan-500"
-              />
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold">
+                {session.user.name.charAt(0).toUpperCase()}
+              </div>
               <div className="text-sm">
-                <p className="font-semibold text-gray-900">{user.name}</p>
-                <p className="text-xs text-muted-foreground">{user.email}</p>
+                <p className="font-semibold text-gray-900">{session.user.name}</p>
+                <p className="text-xs text-muted-foreground">{session.user.email}</p>
               </div>
             </div>
             <button
@@ -131,8 +192,9 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto">
           {/* Welcome Section */}
           <div className="mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold mb-2">Welcome back, {user.name}! 👋</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-2">Welcome back, {session.user.name}! 👋</h1>
             <p className="text-muted-foreground text-lg">Track your progress and access learning resources</p>
+            <p className="text-sm text-cyan-600 font-semibold mt-2">Last activity: {new Date(profile.lastActivityDate).toLocaleDateString()}</p>
           </div>
 
           {/* Tabs */}
@@ -157,35 +219,35 @@ export default function Dashboard() {
             <div className="space-y-8">
               {/* Stats */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="glass rounded-2xl p-6">
+                <div className="glass rounded-2xl p-6 hover:shadow-lg transition">
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <p className="text-muted-foreground text-sm">Total Hours</p>
-                      <p className="text-4xl font-bold text-gray-900">48</p>
+                      <p className="text-4xl font-bold text-gray-900">{profile.totalHours}</p>
                     </div>
                     <Clock className="w-8 h-8 text-cyan-500" />
                   </div>
-                  <p className="text-xs text-muted-foreground">+8 hours this week</p>
+                  <p className="text-xs text-muted-foreground">+{Math.ceil(profile.totalHours / 6)} hours per week avg</p>
                 </div>
-                <div className="glass rounded-2xl p-6">
+                <div className="glass rounded-2xl p-6 hover:shadow-lg transition">
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <p className="text-muted-foreground text-sm">Sessions Attended</p>
-                      <p className="text-4xl font-bold text-gray-900">23</p>
+                      <p className="text-4xl font-bold text-gray-900">{profile.sessionsAttended}</p>
                     </div>
-                    <Award className="w-8 h-8 text-blue-500" />
+                    <Calendar className="w-8 h-8 text-blue-500" />
                   </div>
-                  <p className="text-xs text-muted-foreground">3 more this month</p>
+                  <p className="text-xs text-muted-foreground">Keep attending more sessions</p>
                 </div>
-                <div className="glass rounded-2xl p-6">
+                <div className="glass rounded-2xl p-6 hover:shadow-lg transition">
                   <div className="flex items-start justify-between mb-4">
                     <div>
-                      <p className="text-muted-foreground text-sm">Achievements</p>
-                      <p className="text-4xl font-bold text-gray-900">7</p>
+                      <p className="text-muted-foreground text-sm">Achievements Unlocked</p>
+                      <p className="text-4xl font-bold text-gray-900">{profile.achievements}</p>
                     </div>
-                    <TrendingUp className="w-8 h-8 text-green-500" />
+                    <Zap className="w-8 h-8 text-yellow-500" />
                   </div>
-                  <p className="text-xs text-muted-foreground">Keep it up!</p>
+                  <p className="text-xs text-muted-foreground">You're doing great!</p>
                 </div>
               </div>
 
@@ -194,10 +256,17 @@ export default function Dashboard() {
                 <h2 className="text-2xl font-bold mb-6">Your Achievements</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {achievements.map((ach, i) => (
-                    <div key={i} className="glass rounded-xl p-6">
+                    <div key={i} className={`rounded-xl p-6 transition-all ${ach.unlocked ? 'glass hover:shadow-lg' : 'bg-gray-100 opacity-60'}`}>
                       <div className="text-5xl mb-4">{ach.icon}</div>
                       <h3 className="font-bold text-lg mb-1">{ach.title}</h3>
                       <p className="text-muted-foreground text-sm">{ach.desc}</p>
+                      <div className="mt-4">
+                        {ach.unlocked ? (
+                          <span className="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold">✓ Unlocked</span>
+                        ) : (
+                          <span className="inline-block px-3 py-1 rounded-full bg-gray-200 text-gray-600 text-xs font-semibold">Locked</span>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
