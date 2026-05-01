@@ -61,11 +61,16 @@ export default function Index() {
             <a href="#about" className="text-sm font-medium hover:text-accent transition">About</a>
             <a href="#programs" className="text-sm font-medium hover:text-accent transition">Programs</a>
             <a href="#achievements" className="text-sm font-medium hover:text-accent transition">Achievements</a>
-            <a href="#contact" className="text-sm font-medium hover:text-accent transition">Contact</a>
+            <a href="/dashboard" className="text-sm font-medium hover:text-accent transition">Resources</a>
           </div>
-          <button className="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-semibold transition-all transform hover:scale-105">
-            Join Now
-          </button>
+          <div className="flex items-center gap-3">
+            <a href="/login" className="px-4 py-2 rounded-lg border-2 border-cyan-500 text-cyan-500 hover:bg-cyan-50 text-sm font-semibold transition">
+              Login
+            </a>
+            <button className="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-semibold transition-all transform hover:scale-105">
+              Join Now
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -263,11 +268,11 @@ export default function Index() {
             {/* Mission */}
             <div className="scroll-fade-in">
               <div className="glass rounded-2xl p-8 h-full">
-                <h3 className="text-3xl font-bold mb-6 text-cyan-400">Our Mission</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed">
+                <h3 className="text-2xl md:text-3xl font-bold mb-6 text-cyan-500">Our Mission</h3>
+                <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
                   To bridge the skill gap and transform every willing student into an industry-ready professional
                 </p>
-                <div className="mt-8 space-y-4">
+                <div className="mt-8 space-y-3 md:space-y-4">
                   {[
                     "Provide comprehensive skill development",
                     "Bridge the execution gap with real-world scenarios",
@@ -275,8 +280,8 @@ export default function Index() {
                     "Build a supportive industry-ready ecosystem",
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-1" />
-                      <span className="text-muted-foreground">{item}</span>
+                      <CheckCircle className="w-5 h-5 text-cyan-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-muted-foreground text-sm md:text-base">{item}</span>
                     </div>
                   ))}
                 </div>
@@ -285,18 +290,18 @@ export default function Index() {
 
             {/* Vision */}
             <div className="scroll-fade-in" style={{ animationDelay: "0.2s" }}>
-              <div className="glass rounded-2xl p-8 h-full glow-cyan">
-                <h3 className="text-3xl font-bold mb-6 text-cyan-400">Our Vision</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              <div className="glass rounded-2xl p-6 md:p-8 h-full glow-cyan">
+                <h3 className="text-2xl md:text-3xl font-bold mb-6 text-cyan-500">Our Vision</h3>
+                <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-6">
                   SDC envisions becoming the premier skill development ecosystem in our college and beyond
                 </p>
                 <div className="space-y-4">
-                  <div className="bg-white/5 rounded-lg p-4 border-l-2 border-cyan-500">
-                    <h4 className="font-semibold mb-2">Comprehensive Platform</h4>
+                  <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-lg p-4 border-l-4 border-cyan-500 hover:shadow-md transition-all">
+                    <h4 className="font-semibold mb-2 text-cyan-700">Comprehensive Platform</h4>
                     <p className="text-sm text-muted-foreground">Access to essential technical skills, industry knowledge, internships, and live projects</p>
                   </div>
-                  <div className="bg-white/5 rounded-lg p-4 border-l-2 border-blue-500">
-                    <h4 className="font-semibold mb-2">Strategic Expansion</h4>
+                  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-4 border-l-4 border-blue-500 hover:shadow-md transition-all">
+                    <h4 className="font-semibold mb-2 text-blue-700">Strategic Expansion</h4>
                     <p className="text-sm text-muted-foreground">Collaborations with other colleges building a network that amplifies learning opportunities</p>
                   </div>
                 </div>
@@ -316,7 +321,7 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {[
               {
                 title: "Admin Department",
@@ -337,15 +342,15 @@ export default function Index() {
                 icon: "📢",
               },
             ].map((dept, i) => (
-              <div key={i} className="scroll-fade-in glass-hover rounded-2xl p-8" style={{ animationDelay: `${0.1 * (i + 1)}s` }}>
-                <div className="text-4xl mb-4">{dept.icon}</div>
-                <h3 className="text-2xl font-bold mb-2">{dept.title}</h3>
-                <p className="text-cyan-400 text-sm font-semibold mb-6">{dept.role}</p>
-                <ul className="space-y-3">
+              <div key={i} className="scroll-fade-in glass-hover rounded-2xl p-6 md:p-8" style={{ animationDelay: `${0.1 * (i + 1)}s` }}>
+                <div className="text-5xl md:text-6xl mb-4 transform group-hover:scale-110 transition-transform">{dept.icon}</div>
+                <h3 className="text-xl md:text-2xl font-bold mb-2">{dept.title}</h3>
+                <p className="text-cyan-500 text-xs md:text-sm font-semibold mb-6">{dept.role}</p>
+                <ul className="space-y-2 md:space-y-3">
                   {dept.items.map((item, j) => (
                     <li key={j} className="flex items-start gap-3 text-muted-foreground">
-                      <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-2 flex-shrink-0"></div>
-                      <span className="text-sm">{item}</span>
+                      <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-2 flex-shrink-0"></div>
+                      <span className="text-xs md:text-sm leading-relaxed">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -365,7 +370,7 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {[
               {
                 title: "Master Deck Making",
@@ -392,13 +397,13 @@ export default function Index() {
                 stats: "Interactive Simulations • Proven Results",
               },
             ].map((prog, i) => (
-              <div key={i} className="scroll-fade-in glass-hover rounded-2xl p-8" style={{ animationDelay: `${0.1 * (i + 1)}s` }}>
+              <div key={i} className="scroll-fade-in glass-hover rounded-2xl p-6 md:p-8 group" style={{ animationDelay: `${0.1 * (i + 1)}s` }}>
                 <div className="mb-4">
-                  <h3 className="text-2xl font-bold mb-2">{prog.title}</h3>
-                  <p className="text-cyan-400 text-sm font-semibold">{prog.subtitle}</p>
+                  <h3 className="text-xl md:text-2xl font-bold mb-2 group-hover:text-cyan-500 transition">{prog.title}</h3>
+                  <p className="text-cyan-500 text-xs md:text-sm font-semibold">{prog.subtitle}</p>
                 </div>
-                <p className="text-muted-foreground mb-6">{prog.desc}</p>
-                <p className="text-xs text-muted-foreground border-t border-white/10 pt-4">{prog.stats}</p>
+                <p className="text-muted-foreground text-sm md:text-base mb-6 leading-relaxed">{prog.desc}</p>
+                <p className="text-xs text-muted-foreground border-t border-black/10 pt-4">{prog.stats}</p>
               </div>
             ))}
           </div>
@@ -415,7 +420,7 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {[
               { institution: "IIM Calcutta", event: "The Pivot Point Challenge", rank: "National Rank 3", prize: "INR 15K" },
               { institution: "Sri Venkateswara College", event: "Startup Block Relay", rank: "National Rank 2", prize: "INR 2.5K" },
@@ -424,22 +429,22 @@ export default function Index() {
               { institution: "OP Jindal Global", event: "Catalyst Competition", rank: "National Finalist (130+)", prize: "INR 30K" },
               { institution: "Lady Shri Ram College", event: "Eco Prayog", rank: "National Finalist (1100+)", prize: "INR 50K" },
             ].map((ach, i) => (
-              <div key={i} className="scroll-fade-in glass rounded-lg p-6 border-l-4 border-cyan-500 hover:border-cyan-300 transition" style={{ animationDelay: `${0.05 * (i + 1)}s` }}>
+              <div key={i} className="scroll-fade-in glass rounded-lg p-4 md:p-6 border-l-4 border-cyan-500 hover:border-cyan-300 hover:shadow-md transition-all" style={{ animationDelay: `${0.05 * (i + 1)}s` }}>
                 <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="font-bold text-lg">{ach.institution}</h3>
-                    <p className="text-sm text-muted-foreground">{ach.event}</p>
+                  <div className="flex-1">
+                    <h3 className="font-bold text-base md:text-lg">{ach.institution}</h3>
+                    <p className="text-xs md:text-sm text-muted-foreground leading-tight mt-1">{ach.event}</p>
                   </div>
-                  <Award className="w-5 h-5 text-cyan-400" />
+                  <Award className="w-5 h-5 md:w-6 md:h-6 text-cyan-500 flex-shrink-0 ml-2" />
                 </div>
-                <div className="space-y-2 text-sm">
+                <div className="space-y-2 text-xs md:text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Rank:</span>
-                    <span className="font-semibold text-cyan-400">{ach.rank}</span>
+                    <span className="font-semibold text-cyan-500">{ach.rank}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Prize Pool:</span>
-                    <span className="font-semibold text-green-400">{ach.prize}</span>
+                    <span className="text-muted-foreground">Prize:</span>
+                    <span className="font-semibold text-green-500">{ach.prize}</span>
                   </div>
                 </div>
               </div>
@@ -458,17 +463,17 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {[
               { name: "Consulting", icon: "🎯", desc: "Business problem solving & strategy" },
               { name: "Finance", icon: "💰", desc: "Financial analysis & investments" },
               { name: "Marketing", icon: "📊", desc: "Brand strategy & consumer insights" },
               { name: "HR Analytics", icon: "👥", desc: "Talent management & people insights" },
             ].map((career, i) => (
-              <div key={i} className="scroll-fade-in glass-hover rounded-xl p-6" style={{ animationDelay: `${0.1 * (i + 1)}s` }}>
-                <div className="text-4xl mb-4">{career.icon}</div>
-                <h3 className="text-xl font-bold mb-2">{career.name}</h3>
-                <p className="text-muted-foreground text-sm">{career.desc}</p>
+              <div key={i} className="scroll-fade-in glass-hover rounded-xl p-6 group" style={{ animationDelay: `${0.1 * (i + 1)}s` }}>
+                <div className="text-5xl md:text-6xl mb-4 group-hover:scale-110 transform transition-transform">{career.icon}</div>
+                <h3 className="text-lg md:text-xl font-bold mb-2 group-hover:text-cyan-500 transition">{career.name}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{career.desc}</p>
               </div>
             ))}
           </div>
@@ -485,17 +490,17 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {[
               { title: "10+ Knowledge Sharing Sessions", desc: "Financial Modeling, Data Analytics, Generative AI, Case Solving, Professional Deck Making", emoji: "📚" },
               { title: "2 Flagship Events", desc: "Bilingual Case Competition & Industry Speaker Sessions with top professionals", emoji: "🎪" },
               { title: "Career Guidance Series", desc: "Sessions with alumni and industry experts in Consulting, Finance, Marketing, AI & Data", emoji: "🗣️" },
               { title: "1 Live Industry Project", desc: "Real-world business challenges with hands-on experience and professional work exposure", emoji: "🚀" },
             ].map((item, i) => (
-              <div key={i} className="scroll-fade-in glass-hover rounded-2xl p-8" style={{ animationDelay: `${0.1 * (i + 1)}s` }}>
-                <div className="text-5xl mb-4">{item.emoji}</div>
-                <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
-                <p className="text-muted-foreground">{item.desc}</p>
+              <div key={i} className="scroll-fade-in glass-hover rounded-2xl p-6 md:p-8 group" style={{ animationDelay: `${0.1 * (i + 1)}s` }}>
+                <div className="text-6xl md:text-7xl mb-4 group-hover:scale-110 transform transition-transform">{item.emoji}</div>
+                <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-cyan-500 transition">{item.title}</h3>
+                <p className="text-muted-foreground text-sm md:text-base leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -523,53 +528,55 @@ export default function Index() {
       {/* Footer */}
       <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-black/10 bg-gray-50">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 mb-12">
-            <div>
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-2 mb-4">
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2F096448223b0e406a8a0785e611ecead3%2F5f40d12f388f4d9db63be26e6876548a?format=webp&width=200"
-                  alt="SDC Logo"
-                  className="h-8 w-auto"
-                />
-                <span className="font-bold text-lg">SDC</span>
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center">
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets%2F096448223b0e406a8a0785e611ecead3%2F5f40d12f388f4d9db63be26e6876548a?format=webp&width=200"
+                    alt="SDC Logo"
+                    className="h-6 w-6 rounded-full"
+                  />
+                </div>
+                <span className="font-bold text-lg text-gray-900">SDC</span>
               </div>
-              <p className="text-muted-foreground text-sm">
+              <p className="text-muted-foreground text-xs md:text-sm leading-relaxed">
                 Bridging the gap between academic learning and industry readiness.
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#hero" className="hover:text-cyan-400 transition">Home</a></li>
-                <li><a href="#about" className="hover:text-cyan-400 transition">About</a></li>
-                <li><a href="#programs" className="hover:text-cyan-400 transition">Programs</a></li>
-                <li><a href="#achievements" className="hover:text-cyan-400 transition">Achievements</a></li>
+              <h4 className="font-semibold mb-4 text-sm md:text-base">Quick Links</h4>
+              <ul className="space-y-2 text-xs md:text-sm text-muted-foreground">
+                <li><a href="#hero" className="hover:text-cyan-500 transition duration-200">Home</a></li>
+                <li><a href="#about" className="hover:text-cyan-500 transition duration-200">About</a></li>
+                <li><a href="#programs" className="hover:text-cyan-500 transition duration-200">Programs</a></li>
+                <li><a href="#achievements" className="hover:text-cyan-500 transition duration-200">Achievements</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Resources</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-cyan-400 transition">Blog</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition">Events</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition">Contact</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition">FAQ</a></li>
+              <h4 className="font-semibold mb-4 text-sm md:text-base">Resources</h4>
+              <ul className="space-y-2 text-xs md:text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-cyan-500 transition duration-200">Blog</a></li>
+                <li><a href="#" className="hover:text-cyan-500 transition duration-200">Events</a></li>
+                <li><a href="#" className="hover:text-cyan-500 transition duration-200">Contact</a></li>
+                <li><a href="#" className="hover:text-cyan-500 transition duration-200">FAQ</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Follow Us</h4>
+              <h4 className="font-semibold mb-4 text-sm md:text-base">Follow Us</h4>
               <div className="flex gap-4 text-muted-foreground">
-                <a href="#" className="hover:text-cyan-400 transition text-sm">Twitter</a>
-                <a href="#" className="hover:text-cyan-400 transition text-sm">LinkedIn</a>
-                <a href="#" className="hover:text-cyan-400 transition text-sm">Instagram</a>
+                <a href="#" className="hover:text-cyan-500 transition duration-200 text-xs md:text-sm">Twitter</a>
+                <a href="#" className="hover:text-cyan-500 transition duration-200 text-xs md:text-sm">LinkedIn</a>
+                <a href="#" className="hover:text-cyan-500 transition duration-200 text-xs md:text-sm">Instagram</a>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-black/10 pt-8 flex flex-col md:flex-row justify-between items-center text-muted-foreground text-sm">
+          <div className="border-t border-black/10 pt-8 flex flex-col md:flex-row justify-between items-center text-muted-foreground text-xs md:text-sm gap-4">
             <p>&copy; 2025 Skill Development Cell. All rights reserved.</p>
-            <div className="flex gap-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-cyan-400 transition">Privacy Policy</a>
-              <a href="#" className="hover:text-cyan-400 transition">Terms of Service</a>
+            <div className="flex gap-4 md:gap-6">
+              <a href="#" className="hover:text-cyan-500 transition duration-200">Privacy Policy</a>
+              <a href="#" className="hover:text-cyan-500 transition duration-200">Terms of Service</a>
             </div>
           </div>
         </div>
