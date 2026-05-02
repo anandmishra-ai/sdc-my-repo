@@ -1,4 +1,9 @@
-import { ADMIN_EMAILS, verifyAdminCredentials, UserRole } from "./firebase";
+import { ADMIN_EMAILS, verifyAdminCredentials } from "./firebase";
+
+export enum UserRole {
+  STUDENT = "student",
+  ADMIN = "admin",
+}
 
 export interface User {
   id: string;

@@ -17,9 +17,3 @@ export const ADMIN_PASSWORD = "sdc@sscbs@anand";
 export const verifyAdminCredentials = (email: string, password: string): boolean => {
   return email === "anand@741042@gmail.com" && password === "sdc@sscbs@anand";
 };
-
-// User roles
-export enum UserRole {
-  STUDENT = "student",
-  ADMIN = "admin",
-}
