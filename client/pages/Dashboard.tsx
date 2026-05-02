@@ -278,31 +278,45 @@ export default function Dashboard() {
           {activeTab === "resources" && (
             <div>
               <h2 className="text-2xl font-bold mb-6">Available Resources</h2>
+              <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <p className="text-blue-700 text-sm">You have downloaded {profile.downloadedResources.length} resources</p>
+              </div>
               <div className="space-y-4">
-                {resources.map((resource) => (
-                  <div key={resource.id} className="glass rounded-xl p-6 hover:shadow-lg transition">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center flex-shrink-0">
-                          <FileText className="w-6 h-6 text-white" />
+                {resources.map((resource) => {
+                  const isDownloaded = profile.downloadedResources.includes(resource.id);
+                  return (
+                    <div key={resource.id} className="glass rounded-xl p-6 hover:shadow-lg transition">
+                      <div className="flex items-start justify-between mb-4 gap-4">
+                        <div className="flex items-start gap-4 flex-1">
+                          <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center flex-shrink-0">
+                            <FileText className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-bold text-lg">{resource.title}</h3>
+                            <p className="text-muted-foreground text-sm">{resource.description}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-bold text-lg">{resource.title}</h3>
-                          <p className="text-muted-foreground text-sm">{resource.description}</p>
-                        </div>
+                        <button
+                          onClick={() => handleDownloadResource(resource.id)}
+                          disabled={isDownloaded}
+                          className={`px-4 py-2 rounded-lg text-white font-semibold transition flex items-center gap-2 flex-shrink-0 ${
+                            isDownloaded
+                              ? "bg-green-500 hover:bg-green-600"
+                              : "bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400"
+                          }`}
+                        >
+                          <Download className="w-4 h-4" />
+                          {isDownloaded ? "Downloaded" : "Download"}
+                        </button>
                       </div>
-                      <button className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-semibold transition flex items-center gap-2 flex-shrink-0">
-                        <Download className="w-4 h-4" />
-                        Download
-                      </button>
+                      <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                        <span className="px-3 py-1 rounded-full bg-white/40">{resource.fileType}</span>
+                        <span>{resource.size}</span>
+                        <span>{resource.downloads} total downloads</span>
+                      </div>
                     </div>
-                    <div className="flex gap-4 text-sm text-muted-foreground">
-                      <span className="px-3 py-1 rounded-full bg-white/40">{resource.fileType}</span>
-                      <span>{resource.size}</span>
-                      <span>{resource.downloads} downloads</span>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -311,21 +325,47 @@ export default function Dashboard() {
           {activeTab === "progress" && (
             <div>
               <h2 className="text-2xl font-bold mb-6">Your Progress</h2>
+              <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="glass rounded-xl p-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Clock className="w-5 h-5 text-cyan-500" />
+                    <h3 className="font-bold text-lg">Total Study Time</h3>
+                  </div>
+                  <p className="text-4xl font-bold text-gray-900">{profile.totalHours}h</p>
+                  <p className="text-muted-foreground text-sm mt-2">
+                    Average: {(profile.totalHours / profile.progressData.reduce((sum, p) => sum + p.sessions, 0)).toFixed(1)}h per session
+                  </p>
+                </div>
+                <div className="glass rounded-xl p-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <TrendingUp className="w-5 h-5 text-blue-500" />
+                    <h3 className="font-bold text-lg">Overall Progress</h3>
+                  </div>
+                  <p className="text-4xl font-bold text-gray-900">
+                    {Math.round(profile.progressData.reduce((sum, p) => sum + p.progress, 0) / profile.progressData.length)}%
+                  </p>
+                  <p className="text-muted-foreground text-sm mt-2">Average across all skills</p>
+                </div>
+              </div>
               <div className="space-y-6">
-                {progressData.map((item, i) => (
-                  <div key={i} className="glass rounded-xl p-6">
+                {profile.progressData.map((item, i) => (
+                  <div key={i} className="glass rounded-xl p-6 hover:shadow-lg transition">
                     <div className="flex items-center justify-between mb-4">
                       <div>
                         <h3 className="font-bold text-lg">{item.skill}</h3>
-                        <p className="text-muted-foreground text-sm">{item.sessions} sessions completed</p>
+                        <p className="text-muted-foreground text-sm">{item.sessions} sessions • {item.hoursSpent} hours spent</p>
                       </div>
-                      <span className="text-2xl font-bold text-cyan-500">{item.progress}%</span>
+                      <span className="text-2xl font-bold text-transparent bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text">{item.progress}%</span>
                     </div>
                     <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-500"
                         style={{ width: `${item.progress}%` }}
                       ></div>
+                    </div>
+                    <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                      <Calendar className="w-4 h-4" />
+                      Last updated: {new Date(item.lastUpdated).toLocaleDateString()}
                     </div>
                   </div>
                 ))}

@@ -1,6 +1,7 @@
-import { Upload, Trash2, Eye, LogOut, Plus, Search } from "lucide-react";
+import { Upload, Trash2, Eye, LogOut, Plus, Search, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getSession, clearSession, UserRole } from "@/lib/auth";
 
 interface Resource {
   id: string;
@@ -13,59 +14,129 @@ interface Resource {
   downloads: number;
 }
 
+const RESOURCES_STORAGE_KEY = "sdcAdminResources";
+
+const getResources = (): Resource[] => {
+  const stored = localStorage.getItem(RESOURCES_STORAGE_KEY);
+  if (stored) {
+    try {
+      return JSON.parse(stored);
+    } catch {
+      return getDefaultResources();
+    }
+  }
+  return getDefaultResources();
+};
+
+const getDefaultResources = (): Resource[] => [
+  {
+    id: "1",
+    title: "Financial Modeling Guide",
+    description: "Complete guide to financial modeling for case competitions",
+    category: "Finance",
+    fileType: "PDF",
+    size: "4.5 MB",
+    uploadedDate: "2025-01-10",
+    downloads: 45,
+  },
+  {
+    id: "2",
+    title: "Deck Making Templates",
+    description: "Professional PowerPoint templates for presentations",
+    category: "Presentation",
+    fileType: "PPTX",
+    size: "8.2 MB",
+    uploadedDate: "2025-01-08",
+    downloads: 62,
+  },
+  {
+    id: "3",
+    title: "Case Study Collection",
+    description: "50 solved case studies from major competitions",
+    category: "Case Studies",
+    fileType: "DOCX",
+    size: "6.1 MB",
+    uploadedDate: "2025-01-05",
+    downloads: 38,
+  },
+];
+
+const saveResources = (resources: Resource[]): void => {
+  localStorage.setItem(RESOURCES_STORAGE_KEY, JSON.stringify(resources));
+};
+
 export default function AdminResources() {
   const navigate = useNavigate();
+  const [session, setSession] = useState(getSession());
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [resources, setResources] = useState<Resource[]>([
-    {
-      id: "1",
-      title: "Financial Modeling Guide",
-      description: "Complete guide to financial modeling for case competitions",
-      category: "Finance",
-      fileType: "PDF",
-      size: "4.5 MB",
-      uploadedDate: "2025-01-10",
-      downloads: 45,
-    },
-    {
-      id: "2",
-      title: "Deck Making Templates",
-      description: "Professional PowerPoint templates for presentations",
-      category: "Presentation",
-      fileType: "PPTX",
-      size: "8.2 MB",
-      uploadedDate: "2025-01-08",
-      downloads: 62,
-    },
-    {
-      id: "3",
-      title: "Case Study Collection",
-      description: "50 solved case studies from major competitions",
-      category: "Case Studies",
-      fileType: "DOCX",
-      size: "6.1 MB",
-      uploadedDate: "2025-01-05",
-      downloads: 38,
-    },
-  ]);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [resources, setResources] = useState<Resource[]>(getResources());
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    category: "Finance",
+    fileType: "PDF",
+    size: "0 MB",
+  });
 
   useEffect(() => {
-    const userRole = localStorage.getItem("userRole");
-    if (userRole !== "admin") {
+    const currentSession = getSession();
+    if (!currentSession || currentSession.user.role !== UserRole.ADMIN) {
       navigate("/login");
+      return;
     }
+    setSession(currentSession);
   }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem("sdcUser");
-    localStorage.removeItem("userRole");
+    clearSession();
     navigate("/");
   };
 
   const handleDelete = (id: string) => {
-    setResources(resources.filter((r) => r.id !== id));
+    const updated = resources.filter((r) => r.id !== id);
+    setResources(updated);
+    saveResources(updated);
+  };
+
+  const handleUpload = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.title || !formData.description || !formData.category || !formData.fileType) {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    const newResource: Resource = {
+      id: `resource_${Date.now()}`,
+      title: formData.title,
+      description: formData.description,
+      category: formData.category,
+      fileType: formData.fileType,
+      size: formData.size,
+      uploadedDate: new Date().toISOString().split("T")[0],
+      downloads: 0,
+    };
+
+    const updated = [newResource, ...resources];
+    setResources(updated);
+    saveResources(updated);
+
+    setFormData({
+      title: "",
+      description: "",
+      category: "Finance",
+      fileType: "PDF",
+      size: "0 MB",
+    });
+
+    setUploadSuccess(true);
+    setTimeout(() => {
+      setUploadSuccess(false);
+      setShowUploadModal(false);
+    }, 1500);
   };
 
   const filteredResources = resources.filter((resource) => {
@@ -226,39 +297,75 @@ export default function AdminResources() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4">
           <div className="glass rounded-2xl p-8 max-w-md w-full">
             <h2 className="text-2xl font-bold mb-6">Upload Resource</h2>
-            <form className="space-y-4">
+
+            {uploadSuccess && (
+              <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-200 flex items-start gap-3">
+                <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-green-700 text-sm font-semibold">Resource uploaded successfully!</p>
+                  <p className="text-green-600 text-xs">It's now available for students to download</p>
+                </div>
+              </div>
+            )}
+
+            <form onSubmit={handleUpload} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold mb-2">Resource Title</label>
+                <label className="block text-sm font-semibold mb-2 text-gray-900">Resource Title</label>
                 <input
                   type="text"
-                  placeholder="Enter title"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  placeholder="e.g., Financial Modeling Guide"
                   className="w-full px-4 py-2 rounded-lg border border-black/10 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold mb-2">Description</label>
+                <label className="block text-sm font-semibold mb-2 text-gray-900">Description</label>
                 <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Enter description"
                   rows={3}
                   className="w-full px-4 py-2 rounded-lg border border-black/10 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition resize-none"
                 ></textarea>
               </div>
-              <div>
-                <label className="block text-sm font-semibold mb-2">Category</label>
-                <select className="w-full px-4 py-2 rounded-lg border border-black/10 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition">
-                  <option>Finance</option>
-                  <option>Presentation</option>
-                  <option>Case Studies</option>
-                  <option>Other</option>
-                </select>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-gray-900">Category</label>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full px-4 py-2 rounded-lg border border-black/10 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition">
+                    <option>Finance</option>
+                    <option>Presentation</option>
+                    <option>Case Studies</option>
+                    <option>Communication</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-gray-900">File Type</label>
+                  <select
+                    value={formData.fileType}
+                    onChange={(e) => setFormData({ ...formData, fileType: e.target.value })}
+                    className="w-full px-4 py-2 rounded-lg border border-black/10 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition">
+                    <option>PDF</option>
+                    <option>PPTX</option>
+                    <option>DOCX</option>
+                    <option>ZIP</option>
+                    <option>MP4</option>
+                  </select>
+                </div>
               </div>
               <div>
-                <label className="block text-sm font-semibold mb-2">Upload File</label>
-                <div className="border-2 border-dashed border-cyan-500 rounded-lg p-6 text-center cursor-pointer hover:bg-cyan-50 transition">
-                  <Upload className="w-8 h-8 text-cyan-500 mx-auto mb-2" />
-                  <p className="font-semibold text-gray-900">Click to upload</p>
-                  <p className="text-sm text-muted-foreground">or drag and drop</p>
-                </div>
+                <label className="block text-sm font-semibold mb-2 text-gray-900">File Size</label>
+                <input
+                  type="text"
+                  value={formData.size}
+                  onChange={(e) => setFormData({ ...formData, size: e.target.value })}
+                  placeholder="e.g., 5.2 MB"
+                  className="w-full px-4 py-2 rounded-lg border border-black/10 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition"
+                />
               </div>
               <div className="flex gap-4 pt-4">
                 <button
@@ -270,8 +377,9 @@ export default function AdminResources() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold hover:from-cyan-400 hover:to-blue-400 transition"
+                  className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold hover:from-cyan-400 hover:to-blue-400 transition flex items-center justify-center gap-2"
                 >
+                  <Upload className="w-4 h-4" />
                   Upload
                 </button>
               </div>
