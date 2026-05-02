@@ -76,55 +76,21 @@ const saveStudentProfile = (userId: string, profile: StudentProfile): void => {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const [session, setSession] = useState(getSession());
-  const [activeTab, setActiveTab] = useState<"overview" | "resources" | "progress">("overview");
-  const [profile, setProfile] = useState<StudentProfile | null>(null);
-  const [resources, setResources] = useState<Resource[]>([
-    {
-      id: "1",
-      title: "Financial Modeling Guide",
-      description: "Complete guide to financial modeling for case competitions",
-      fileType: "PDF",
-      size: "4.5 MB",
-      uploadedDate: "2025-01-10",
-      downloads: 45,
-      category: "Finance",
-    },
-    {
-      id: "2",
-      title: "Deck Making Templates",
-      description: "Professional PowerPoint templates for presentations",
-      fileType: "PPTX",
-      size: "8.2 MB",
-      uploadedDate: "2025-01-08",
-      downloads: 62,
-      category: "Presentation",
-    },
-    {
-      id: "3",
-      title: "Case Study Collection",
-      description: "50 solved case studies from major competitions",
-      fileType: "DOCX",
-      size: "6.1 MB",
-      uploadedDate: "2025-01-05",
-      downloads: 38,
-      category: "Case Studies",
-    },
-  ]);
 
   useEffect(() => {
-    const currentSession = getSession();
-    if (!currentSession) {
-      navigate("/login");
-      return;
-    }
-
-    setSession(currentSession);
-
-    // Load or initialize student profile
-    const studentProfile = getStudentProfile(currentSession.user.id);
-    setProfile(studentProfile);
+    // Redirect to homepage
+    navigate("/");
   }, [navigate]);
+
+  // Placeholder while redirecting
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-white via-blue-50 to-cyan-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-16 h-16 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-gray-900 font-semibold">Redirecting...</p>
+      </div>
+    </div>
+  );
 
   const handleLogout = () => {
     clearSession();

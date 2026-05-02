@@ -170,7 +170,7 @@ export default function Login() {
                     type="email"
                     value={adminEmail}
                     onChange={(e) => setAdminEmail(e.target.value)}
-                    placeholder="anand@741042@gmail.com"
+                    placeholder="Enter admin email"
                     className="w-full px-4 py-3 rounded-xl border border-black/10 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition disabled:bg-gray-100"
                     disabled={loading}
                   />
@@ -183,7 +183,7 @@ export default function Login() {
                       type={showPassword ? "text" : "password"}
                       value={adminPassword}
                       onChange={(e) => setAdminPassword(e.target.value)}
-                      placeholder="sdc@sscbs@anand"
+                      placeholder="Enter admin password"
                       className="w-full px-4 py-3 pr-12 rounded-xl border border-black/10 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition disabled:bg-gray-100"
                       disabled={loading}
                     />
@@ -216,11 +216,6 @@ export default function Login() {
                 </button>
               </form>
 
-              <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <p className="text-xs text-blue-700 font-semibold mb-2">Demo Credentials:</p>
-                <p className="text-xs text-blue-600">Email: anand@741042@gmail.com</p>
-                <p className="text-xs text-blue-600">Password: sdc@sscbs@anand</p>
-              </div>
             </>
           )}
 

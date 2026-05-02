@@ -61,16 +61,10 @@ export default function Index() {
             <a href="#about" className="text-sm font-medium hover:text-accent transition">About</a>
             <a href="#programs" className="text-sm font-medium hover:text-accent transition">Programs</a>
             <a href="#achievements" className="text-sm font-medium hover:text-accent transition">Achievements</a>
-            <a href="/dashboard" className="text-sm font-medium hover:text-accent transition">Resources</a>
           </div>
-          <div className="flex items-center gap-3">
-            <a href="/login" className="px-4 py-2 rounded-lg border-2 border-cyan-500 text-cyan-500 hover:bg-cyan-50 text-sm font-semibold transition">
-              Login
-            </a>
-            <button className="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-semibold transition-all transform hover:scale-105">
-              Join Now
-            </button>
-          </div>
+          <button className="px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-semibold transition-all transform hover:scale-105">
+            Join Now
+          </button>
         </div>
       </nav>
 
