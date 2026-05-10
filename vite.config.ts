@@ -10,10 +10,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
-    port: 8080,
+    port: 8081,
+    cors: true,
     fs: {
-      allow: ["./client", "./shared", "index.html"],
-      deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**", "server/**"],
+      allow: ["./", "./client", "./shared", "./public", "index.html"],
+      deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**", "server/**", "node_modules"],
     },
   },
   build: {

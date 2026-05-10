@@ -7,7 +7,14 @@ export function createServer() {
   const app = express();
 
   // Middleware
-  app.use(cors());
+  app.use(
+    cors({
+      origin: "http://localhost:8081",
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
+    })
+  );
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
